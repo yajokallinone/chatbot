@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+  <header class="mb-4">
+    <h1 class="h2 mb-1 text-center">เลือกแชทบอท</h1>
+    <!-- <p class="muted text-center" >คลิกการ์ดเพื่อเริ่มคุยกับบอทคนนั้น ๆ</p> -->
+  </header>
+
+  <div class="row g-4">
+    {% for a in agents %}
+      <div class="col-12 col-md-6 col-lg-4">
+        <div class="card shadow-sm h-100">
+          <!-- รูปสี่เหลี่ยมด้านบน -->
+           <!-- <a  href="{{ url_for('chat', agent_id=a.id) }}"> -->
+         <img src="{{ a.image_url }}" 
+     data-hover="{{ a.image_hover_url }}" 
+     class="card-img-top img-fluid change-on-hover" 
+     alt="{{ a.name }}">
+
+          <!-- </a> -->
+          <div class="card-body text-center">
+            <h2 class="card-title mt-2">{{ a.name }}</h2>
+            <h4 class="card-text text-muted ">{{ a.description }}</h4>
+              {% if a.enabled %}
+            <a class="btn btn-success" href="{{ url_for('chat', agent_id=a.id) }}">เริ่มแชท <i class="bi bi-chat-dots"></i></a>
+          {% else %}
+            <button class="btn btn-secondary" disabled>ยังไม่เปิดให้ใช้งาน</button>
+          {% endif %}
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}

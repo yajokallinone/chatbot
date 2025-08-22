@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block content %}
+  <!-- ส่วนหัวโปรไฟล์ -->
+  <div class="d-flex align-items-center gap-3 mb-3 p-3 rounded" style="background-color: rgba(255,255,255,0.05);">
+    <!-- รูปเอเจนต์อยู่ด้านซ้าย -->
+    <img
+      id="agentAvatar"
+      src="{{ agent.image_url }}"
+      alt="{{ agent.name }}"
+      class="rounded shadow"
+      style="width:80px;height:80px;object-fit:cover;border:2px solid rgba(255,255,255,.2);"
+    />
+
+    <!-- ข้อความรายละเอียด -->
+    <div class="flex-grow-1">
+      <h1 class="h5 m-0 text-white">{{ agent.name }}</h1>
+      <small class="text-muted d-block">{{ agent.description }}</small>
+      <a href="/" class="btn btn-sm btn-outline-light mt-2">← เลือกผู้ช่วย</a>
+    </div>
+  </div>
+
+  <!-- กล่องแชท -->
+  <div id="chat" class="chat-box mb-3 rounded-3" style="max-height:500px;"></div>
+
+  <!-- ช่องกรอกข้อความ -->
+  <div class="input-group">
+    <input id="input" type="text" class="form-control" placeholder="พิมพ์ข้อความแล้วกด Enter...">
+    <button class="btn btn-info" id="send">
+      <span class="spinner-border spinner-border-sm d-none" id="spinner" role="status" aria-hidden="true"></span>
+      <span id="sendLabel">ส่ง</span>
+    </button>
+  </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  window.CHAT_CONFIG = {
+    agentId: "{{ agent.id }}",
+    apiUrl: "{{ url_for('api_chat', agent_id=agent.id) }}",
+    imageIdle: "{{ agent.image_url }}",
+    imageTalking: "{{ agent.image_talking_url or agent.image_url }}"
+  };
+</script>
+<script src="{{ url_for('static', filename='js/chat.js') }}"></script>
+{% endblock %}
